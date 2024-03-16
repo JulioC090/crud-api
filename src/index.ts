@@ -1,5 +1,8 @@
+import 'dotenv/config';
 import Fastify from 'fastify';
+
 const server = Fastify();
+const port = parseInt(process.env.PORT as string) || 3000;
 
 server.get('/products', (request, reply) => {
   reply.send([
@@ -7,7 +10,7 @@ server.get('/products', (request, reply) => {
   ]);
 });
 
-server.listen({ port: 3000 }, (err, address) => {
+server.listen({ port }, (err, address) => {
   console.log(`Server is now listening on ${address}`);
 });
 
