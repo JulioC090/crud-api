@@ -1,18 +1,14 @@
 import Fastify from 'fastify';
-const fastify = Fastify();
+const server = Fastify();
 
-fastify.get('/products', (request, reply) => {
-  reply.send({
-    products: [
-      { name: 'Produto 1', description: 'Descrição do Produto', price: 19.99 },
-    ],
-  });
+server.get('/products', (request, reply) => {
+  reply.send([
+    { name: 'Produto 1', description: 'Descrição do Produto', price: 19.99 },
+  ]);
 });
 
-fastify.listen({ port: 3000 }, (err, address) => {
-  if (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
+server.listen({ port: 3000 }, (err, address) => {
   console.log(`Server is now listening on ${address}`);
 });
+
+export default server;
