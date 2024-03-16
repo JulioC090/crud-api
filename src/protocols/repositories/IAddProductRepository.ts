@@ -1,7 +1,7 @@
 import Product from '@/entities/Product';
 
 export type IAddProductRepositoryInput = {
-  product: Product;
+  product: Partial<Omit<Product, 'id'>>;
 };
 
 export type IAddProductRepositoryOutput = Promise<boolean>;

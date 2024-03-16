@@ -8,7 +8,7 @@ class AddProductService {
     this.addProductRepository = addProductRepository;
   }
 
-  async execute(product: Product): Promise<boolean> {
+  async execute(product: Partial<Omit<Product, 'id'>>): Promise<boolean> {
     return await this.addProductRepository.add({ product });
   }
 }
