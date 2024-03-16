@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2022",
     "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

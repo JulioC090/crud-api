@@ -2,10 +2,14 @@
   "name": "crud-api",
   "version": "1.0.0",
   "description": "Uma API para gerenciar um catálogo de produtos, oferecendo funcionalidades de criação, visualização, atualização e exclusão produtos.",
+  "main": "index.js",
   "scripts": {
+    "start": "node ./dist",
     "dev": "tsx watch ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint . --ext ts --fix && prettier **/**.ts"
+    "build": "tsc",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
