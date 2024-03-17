@@ -1,14 +1,16 @@
-import Product from '@/entities/Product';
 import { IListProductsRepository } from '@/protocols/repositories/IListProductsRepository';
+import IListProductsService, {
+  IListProductsServiceOutput,
+} from '@/protocols/services/IListProductsService';
 
-class ListProductsService {
+class ListProductsService implements IListProductsService {
   private listProductsRepository: IListProductsRepository;
 
   constructor(listProductsRepository: IListProductsRepository) {
     this.listProductsRepository = listProductsRepository;
   }
 
-  async execute(): Promise<Array<Product>> {
+  async execute(): IListProductsServiceOutput {
     return await this.listProductsRepository.list();
   }
 }
