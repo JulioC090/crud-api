@@ -1,7 +1,8 @@
 import Product from '@/entities/Product';
 import { IAddProductRepository } from '@/protocols/repositories/IAddProductRepository';
+import IAddProductService from '@/protocols/services/IAddProductService';
 
-class AddProductService {
+class AddProductService implements IAddProductService {
   addProductRepository: IAddProductRepository;
 
   constructor(addProductRepository: IAddProductRepository) {
