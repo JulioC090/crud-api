@@ -5,7 +5,7 @@ import {
   IAddProductRepositoryInput,
   IAddProductRepositoryOutput,
 } from '@/protocols/repositories/IAddProductRepository';
-import { UUID } from 'mongodb';
+import { randomUUID } from 'crypto';
 
 class AddProductMongoDBRepository implements IAddProductRepository {
   async add(data: IAddProductRepositoryInput): IAddProductRepositoryOutput {
@@ -13,7 +13,7 @@ class AddProductMongoDBRepository implements IAddProductRepository {
       await MongoDBHelper.getCollection<Product>('products');
     if (!productsCollection) return false;
 
-    const product = { id: UUID.generate().toString(), ...data.product };
+    const product = { id: randomUUID(), ...data.product };
     const result = await productsCollection.insertOne(product);
     return result.acknowledged;
   }
