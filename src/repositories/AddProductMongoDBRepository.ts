@@ -14,8 +14,8 @@ class AddProductMongoDBRepository implements IAddProductRepository {
     if (!productsCollection) return false;
 
     const product = { id: UUID.generate().toString(), ...data.product };
-    productsCollection.insertOne(product);
-    return true;
+    const result = await productsCollection.insertOne(product);
+    return result.acknowledged;
   }
 }
 
