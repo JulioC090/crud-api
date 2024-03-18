@@ -1,9 +1,13 @@
+import buildServer from '@/app';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
-import app from '@/index';
+import { FastifyInstance } from 'fastify';
 import request from 'supertest';
+
+let app: FastifyInstance;
 
 beforeAll(async () => {
   await MongoDBHelper.connect(process.env.MONGO_URL as string);
+  app = buildServer();
   await app.ready();
 });
 

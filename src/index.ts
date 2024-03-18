@@ -1,11 +1,11 @@
-import build from '@/app';
+import buildServer from '@/app';
+import MongoDBHelper from '@/helpers/MongoDBHelper';
 import 'dotenv/config';
 
-const server = build();
-const port = parseInt(process.env.PORT as string) || 3000;
+const port = parseInt(process.env.PORT as string);
 
-server.listen({ port }, (err, address) => {
-  console.log(`Server is now listening on ${address}`);
-});
-
-export default server;
+MongoDBHelper.connect(process.env.MONGO_URL as string)
+  .then(async () => {
+    buildServer(port);
+  })
+  .catch(console.error);

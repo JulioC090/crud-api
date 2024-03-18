@@ -12,7 +12,7 @@
     "test": "jest --passWithNoTests --runInBand",
     "test:watch": "npm test -- --detectOpenHandles --watch",
     "test:staged": "npm test -- --detectOpenHandles --findRelatedTests --forceExit",
-    "test:coverage": "npm test -- --coverage",
+    "test:coverage": "npm test -- --detectOpenHandles --coverage --forceExit",
     "prepare": "husky"
   },
   "keywords": [],
