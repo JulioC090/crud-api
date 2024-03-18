@@ -10,8 +10,8 @@
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "test": "jest --passWithNoTests --runInBand",
-    "test:watch": "npm test -- --watch",
-    "test:staged": "npm test -- --findRelatedTests",
+    "test:watch": "npm test -- --detectOpenHandles --watch",
+    "test:staged": "npm test -- --detectOpenHandles --findRelatedTests --forceExit",
     "test:coverage": "npm test -- --coverage",
     "prepare": "husky"
   },
