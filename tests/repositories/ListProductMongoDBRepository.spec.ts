@@ -11,10 +11,6 @@ const makeSut = () => {
 };
 
 describe('ListProductMongoDBRepository', () => {
-  beforeEach(async () => {
-    await productsCollection?.deleteMany();
-  });
-
   afterAll(async () => {
     await MongoDBHelper.disconnect();
   });
@@ -36,6 +32,7 @@ describe('ListProductMongoDBRepository', () => {
   test('Should return a list of products when there are products cataloged', async () => {
     await MongoDBHelper.connect(process.env.MONGO_URL as string);
     productsCollection = await MongoDBHelper.getCollection<Product>('products');
+    await productsCollection?.deleteMany();
 
     const { sut } = makeSut();
     const fakeProducts = [
