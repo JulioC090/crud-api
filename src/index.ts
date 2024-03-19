@@ -1,14 +1,13 @@
 import buildServer from '@/app';
+import env from '@/env';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
-import 'dotenv/config';
 
-const { DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME } = process.env;
-const port = parseInt(process.env.SERVER_PORT as string);
+const uri = env.dbUser
+  ? `mongodb://${env.dbUser}:${env.dbPass}@${env.dbHost}:${env.dbPort}/${env.dbName}?authSource=admin`
+  : `mongodb://${env.dbHost}:${env.dbPort}/${env.dbName}`;
 
-MongoDBHelper.connect(
-  `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`,
-)
+MongoDBHelper.connect(uri)
   .then(async () => {
-    buildServer(port);
+    buildServer(env.serverPort);
   })
   .catch(console.error);
