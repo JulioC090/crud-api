@@ -50,7 +50,9 @@ describe('ListProductMongoDBRepository', () => {
       },
     ];
 
-    await productsCollection?.insertMany(fakeProducts);
+    await productsCollection?.insertMany(
+      fakeProducts.map((product) => Object.assign({}, product)),
+    );
 
     const response = await sut.list();
 

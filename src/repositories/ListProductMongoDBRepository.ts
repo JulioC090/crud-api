@@ -9,7 +9,10 @@ class ListProductMongoDBRepository implements IListProductsRepository {
   async list(): IListProductsRepositoryOutput {
     const productsCollection =
       await MongoDBHelper.getCollection<Product>('products');
-    const products = (await productsCollection?.find({}).toArray()) || [];
+    const products =
+      (await productsCollection
+        ?.find({}, { projection: { _id: 0 } })
+        .toArray()) || [];
     return products;
   }
 }
