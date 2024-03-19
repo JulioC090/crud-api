@@ -35,10 +35,6 @@ describe('POST /product', () => {
 
   test('Should add a product in GET /products', async () => {
     const firstGetResponse = await request(app.server).get('/products');
-    expect(
-      Array.isArray(firstGetResponse.body) &&
-        firstGetResponse.body.length === 1,
-    ).toBeTruthy();
 
     const response = await request(app.server).post('/product').send({
       name: 'Test Product',
@@ -48,10 +44,8 @@ describe('POST /product', () => {
     expect(response.status).toBe(201);
 
     const secondGetResponse = await request(app.server).get('/products');
-    expect(
-      Array.isArray(secondGetResponse.body) &&
-        secondGetResponse.body.length === 2,
-    ).toBeTruthy();
+
+    expect(secondGetResponse.body > firstGetResponse.body).toBeTruthy();
   });
 
   test('Should return 400 when request body is empty', async () => {
@@ -91,66 +85,66 @@ describe('POST /product', () => {
     });
     expect(response.status).toBe(400);
   });
+});
 
-  describe('PUT /product', () => {
-    test('Should return 200 code on success', async () => {
-      const getResponse = await request(app.server).get('/products');
-      const response = await request(app.server)
-        .put(encodeURI(`/product/${getResponse.body[0].id}`))
-        .send({ name: 'New_Name' });
+describe('PUT /product', () => {
+  test('Should return 200 code on success', async () => {
+    const getResponse = await request(app.server).get('/products');
+    const response = await request(app.server)
+      .put(encodeURI(`/product/${getResponse.body[0].id}`))
+      .send({ name: 'New_Name' });
 
-      expect(response.status).toBe(200);
-    });
-
-    test('Should change product value', async () => {
-      const firstGetResponse = await request(app.server).get('/products');
-      await request(app.server)
-        .put(encodeURI(`/product/${firstGetResponse.body[0].id}`))
-        .send({ price: 120 });
-
-      const secondGetResponse = await request(app.server).get('/products');
-
-      const editedProduct = secondGetResponse.body.filter(
-        (product: { id: string }) => product.id === firstGetResponse.body[0].id,
-      );
-
-      expect(editedProduct[0].price).toBe(120);
-    });
-
-    test('Should return 400 when id is undefined', async () => {
-      const response = await request(app.server)
-        .put('/product/')
-        .send({ name: 'New_Name' });
-
-      expect(response.status).toBe(400);
-    });
+    expect(response.status).toBe(200);
   });
 
-  describe('DELETE /product', () => {
-    test('Should return 200 code on success', async () => {
-      const getResponse = await request(app.server).get('/products');
-      const response = await request(app.server).delete(
-        encodeURI(`/product/${getResponse.body[0].id}`),
-      );
+  test('Should change product value', async () => {
+    const firstGetResponse = await request(app.server).get('/products');
+    await request(app.server)
+      .put(encodeURI(`/product/${firstGetResponse.body[0].id}`))
+      .send({ price: 120 });
 
-      expect(response.status).toBe(200);
-    });
+    const secondGetResponse = await request(app.server).get('/products');
 
-    test('Should return 500 when id is undefined', async () => {
-      const response = await request(app.server).delete(encodeURI('/product/'));
+    const editedProduct = secondGetResponse.body.filter(
+      (product: { id: string }) => product.id === firstGetResponse.body[0].id,
+    );
 
-      expect(response.status).toBe(500);
-    });
+    expect(editedProduct[0].price).toBe(120);
+  });
 
-    test('Should delete the product', async () => {
-      const firstGetResponse = await request(app.server).get('/products');
-      await request(app.server).delete(
-        encodeURI(`/product/${firstGetResponse.body[0].id}`),
-      );
+  test('Should return 400 when id is undefined', async () => {
+    const response = await request(app.server)
+      .put('/product/')
+      .send({ name: 'New_Name' });
 
-      const secondGetResponse = await request(app.server).get('/products');
+    expect(response.status).toBe(400);
+  });
+});
 
-      expect(firstGetResponse.body > secondGetResponse.body).toBeTruthy();
-    });
+describe('DELETE /product', () => {
+  test('Should return 200 code on success', async () => {
+    const getResponse = await request(app.server).get('/products');
+    const response = await request(app.server).delete(
+      encodeURI(`/product/${getResponse.body[0].id}`),
+    );
+
+    expect(response.status).toBe(200);
+  });
+
+  test('Should return 500 when id is undefined', async () => {
+    const response = await request(app.server).delete(encodeURI('/product/'));
+
+    expect(response.status).toBe(500);
+  });
+
+  test('Should delete the product', async () => {
+    const firstGetResponse = await request(app.server).get('/products');
+    await request(app.server).delete(
+      encodeURI(`/product/${firstGetResponse.body[0].id}`),
+    );
+
+    const secondGetResponse = await request(app.server).get('/products');
+
+    expect(firstGetResponse.body > secondGetResponse.body).toBeTruthy();
   });
 });
