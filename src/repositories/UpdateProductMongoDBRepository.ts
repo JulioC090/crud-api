@@ -1,5 +1,6 @@
 import Product from '@/entities/Product';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
+import DBConnectionError from '@/main/errors/DBConnectionError';
 import {
   IUpdateProductRepository,
   IUpdateProductRepositoryInput,
@@ -15,7 +16,7 @@ class UpdateProductMongoDBRepository implements IUpdateProductRepository {
 
     const productsCollection =
       await MongoDBHelper.getCollection<Product>('products');
-    if (!productsCollection) return false;
+    if (!productsCollection) throw new DBConnectionError();
 
     const response = await productsCollection.updateOne(
       { id: data.id },

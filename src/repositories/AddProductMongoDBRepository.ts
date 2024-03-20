@@ -1,5 +1,6 @@
 import Product from '@/entities/Product';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
+import DBConnectionError from '@/main/errors/DBConnectionError';
 import {
   IAddProductRepository,
   IAddProductRepositoryInput,
@@ -11,7 +12,7 @@ class AddProductMongoDBRepository implements IAddProductRepository {
   async add(data: IAddProductRepositoryInput): IAddProductRepositoryOutput {
     const productsCollection =
       await MongoDBHelper.getCollection<Product>('products');
-    if (!productsCollection) return false;
+    if (!productsCollection) throw new DBConnectionError();
 
     const product = { id: randomUUID(), ...data.product };
     const result = await productsCollection.insertOne(product);

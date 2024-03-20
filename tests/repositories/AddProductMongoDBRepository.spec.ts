@@ -21,11 +21,11 @@ describe('AddProductMongoDBRepository', () => {
     await MongoDBHelper.disconnect();
   });
 
-  test('Should return false when products collection is undefined', async () => {
+  test('Should throw when products collection is undefined', async () => {
     const { sut } = makeSut();
-    const response = await sut.add({ product });
 
-    expect(response).toBeFalsy();
+    const promise = sut.add({ product });
+    await expect(promise).rejects.toThrow();
   });
 
   test('Should return true on success', async () => {

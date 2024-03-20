@@ -1,5 +1,6 @@
 import Product from '@/entities/Product';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
+import DBConnectionError from '@/main/errors/DBConnectionError';
 import {
   IDeleteProductRepository,
   IDeleteProductRepositoryInput,
@@ -12,7 +13,7 @@ class DeleteProductMongoDBRepository implements IDeleteProductRepository {
   ): IDeleteProductRepositoryOutput {
     const productsCollection =
       await MongoDBHelper.getCollection<Product>('products');
-    if (!productsCollection) return false;
+    if (!productsCollection) throw new DBConnectionError();
 
     const result = await productsCollection.deleteOne({ id: data.id });
 

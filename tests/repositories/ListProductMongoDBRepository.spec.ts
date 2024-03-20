@@ -15,14 +15,17 @@ describe('ListProductMongoDBRepository', () => {
     await MongoDBHelper.disconnect();
   });
 
-  test('Should return an empty array when there are no products cataloged', async () => {
+  test('Should throw when products collection is undefined', async () => {
     const { sut } = makeSut();
-    const response = await sut.list();
 
-    expect(response).toEqual([]);
+    const promise = sut.list();
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return an empty array when products collection is undefined', async () => {
+  test('Should return an empty array when there are no products cataloged', async () => {
+    await MongoDBHelper.connect(process.env.MONGO_URL as string);
+    productsCollection = await MongoDBHelper.getCollection<Product>('products');
+    await productsCollection?.deleteMany();
     const { sut } = makeSut();
     const response = await sut.list();
 

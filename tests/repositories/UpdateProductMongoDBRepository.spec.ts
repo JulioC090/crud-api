@@ -30,9 +30,9 @@ describe('UpdateProductMongoDBRepository', () => {
 
   test('Should return false when products collection is undefined', async () => {
     const { sut } = makeSut();
-    const response = await sut.update({ id: 'id_valido', partialProduct });
 
-    expect(response).toBeFalsy();
+    const promise = sut.update({ id: 'id_valido', partialProduct });
+    await expect(promise).rejects.toThrow();
   });
 
   test('Should return true on success', async () => {

@@ -24,9 +24,9 @@ describe('DeleteProductMongoDBRepository', () => {
 
   test('Should return false when products collection is undefined', async () => {
     const { sut } = makeSut();
-    const response = await sut.delete({ id: 'id_valido' });
 
-    expect(response).toBeFalsy();
+    const promise = sut.delete({ id: 'id_valido' });
+    await expect(promise).rejects.toThrow();
   });
 
   test('Should return true on success', async () => {
