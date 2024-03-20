@@ -12,10 +12,9 @@ class ListProductMongoDBRepository implements IListProductsRepository {
       await MongoDBHelper.getCollection<Product>('products');
     if (!productsCollection) throw new DBConnectionError();
 
-    const products =
-      (await productsCollection
-        ?.find({}, { projection: { _id: 0 } })
-        .toArray()) || [];
+    const products = await productsCollection
+      ?.find({}, { projection: { _id: 0 } })
+      .toArray();
     return products;
   }
 }
