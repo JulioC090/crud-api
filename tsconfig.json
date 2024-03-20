@@ -2,17 +2,18 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "commonjs",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "rootDirs": ["src", "tests"],
     "outDir": "dist",
     "paths": {
       "@/tests/*": ["../tests/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests"],
+  "exclude": []
 }
