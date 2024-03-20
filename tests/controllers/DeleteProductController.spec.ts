@@ -32,20 +32,20 @@ describe('DeleteProductController', () => {
     expect(response.status).toBe(200);
   });
 
-  test('Should return 500 when id is undefined', async () => {
+  test('Should throw when id is undefined', async () => {
     const { sut } = makeSut();
 
-    const response = await sut.handle({ params: {} });
+    const promise = sut.handle({ params: {} });
 
-    expect(response.status).toBe(500);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 500 when id is empty', async () => {
+  test('Should throw when id is empty', async () => {
     const { sut } = makeSut();
 
-    const response = await sut.handle({ params: { id: '' } });
+    const promise = sut.handle({ params: { id: '' } });
 
-    expect(response.status).toBe(500);
+    await expect(promise).rejects.toThrow();
   });
 
   test('Should call DeleteProductService with correct values', async () => {

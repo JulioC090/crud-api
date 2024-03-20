@@ -20,16 +20,13 @@ class UpdateProductController {
   }
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const reqParams = requestParamsSchema.safeParse(request.params);
-    if (!reqParams.success) return { status: 400 };
-
-    const reqBody = requestBodySchema.partial().safeParse(request.body);
-    if (!reqBody.success || Object.keys(reqBody.data).length === 0)
-      return { status: 400 };
+    const reqParams = requestParamsSchema.parse(request.params);
+    const reqBody = requestBodySchema.partial().parse(request.body);
+    if (Object.keys(reqBody).length === 0) return { status: 400 };
 
     const response = await this.updateProductService.execute({
-      id: reqParams.data.id,
-      partialProduct: reqBody.data,
+      id: reqParams.id,
+      partialProduct: reqBody,
     });
     if (!response) return { status: 500 };
 

@@ -37,20 +37,20 @@ describe('UpdateProductController', () => {
     expect(response.status).toBe(200);
   });
 
-  test('Should return 400 when id is undefined', async () => {
+  test('Should throw when id is undefined', async () => {
     const { sut } = makeSut();
 
-    const response = await sut.handle({ params: {} });
+    const promise = sut.handle({ params: {} });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when id is empty', async () => {
+  test('Should throw when id is empty', async () => {
     const { sut } = makeSut();
 
-    const response = await sut.handle({ params: { id: '' } });
+    const promise = sut.handle({ params: { id: '' } });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
   test('Should return 400 when request body is empty', async () => {
@@ -63,10 +63,10 @@ describe('UpdateProductController', () => {
 
     const response = await sut.handle(request);
 
-    expect(response.status).toBe(400);
+    expect(response).toEqual({ status: 400 });
   });
 
-  test('Should return 400 when name is empty', async () => {
+  test('Should throw when name is empty', async () => {
     const { sut } = makeSut();
 
     const request = {
@@ -78,12 +78,12 @@ describe('UpdateProductController', () => {
       },
     };
 
-    const response = await sut.handle(request);
+    const promise = sut.handle(request);
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when description is empty', async () => {
+  test('Should throw when description is empty', async () => {
     const { sut } = makeSut();
 
     const request = {
@@ -95,12 +95,12 @@ describe('UpdateProductController', () => {
       },
     };
 
-    const response = await sut.handle(request);
+    const promise = sut.handle(request);
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when price is negative', async () => {
+  test('Should throw when price is negative', async () => {
     const { sut } = makeSut();
 
     const request = {
@@ -111,9 +111,10 @@ describe('UpdateProductController', () => {
         price: -10.99,
       },
     };
-    const response = await sut.handle(request);
 
-    expect(response.status).toBe(400);
+    const promise = sut.handle(request);
+
+    await expect(promise).rejects.toThrow();
   });
 
   test('Should call UpdateProductService with correct values', async () => {

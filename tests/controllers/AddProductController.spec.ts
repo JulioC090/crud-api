@@ -36,17 +36,17 @@ describe('AddProductController', () => {
     expect(response.status).toBe(201);
   });
 
-  test('Should return 400 when request body is empty', async () => {
+  test('Should throw when request body is empty', async () => {
     const { sut } = makeSut();
 
     const requestBody = {};
 
-    const response = await sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: requestBody });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when name is empty', async () => {
+  test('Should throw when name is empty', async () => {
     const { sut } = makeSut();
 
     const requestBody = {
@@ -55,12 +55,12 @@ describe('AddProductController', () => {
       price: 10.99,
     };
 
-    const response = await sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: requestBody });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when description is empty', async () => {
+  test('Should throw when description is empty', async () => {
     const { sut } = makeSut();
 
     const requestBody = {
@@ -69,12 +69,12 @@ describe('AddProductController', () => {
       price: 10.99,
     };
 
-    const response = await sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: requestBody });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when name is undefined', async () => {
+  test('Should throw when name is undefined', async () => {
     const { sut } = makeSut();
 
     const requestBody = {
@@ -82,12 +82,12 @@ describe('AddProductController', () => {
       price: 10.99,
     };
 
-    const response = await sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: requestBody });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when description is undefined', async () => {
+  test('Should throw when description is undefined', async () => {
     const { sut } = makeSut();
 
     const requestBody = {
@@ -95,12 +95,12 @@ describe('AddProductController', () => {
       price: 10.99,
     };
 
-    const response = await sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: requestBody });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when price is undefined', async () => {
+  test('Should throw when price is undefined', async () => {
     const { sut } = makeSut();
 
     const requestBody = {
@@ -108,12 +108,12 @@ describe('AddProductController', () => {
       description: 'Test Description',
     };
 
-    const response = await sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: requestBody });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
-  test('Should return 400 when price is negative', async () => {
+  test('Should throw when price is negative', async () => {
     const { sut } = makeSut();
 
     const requestBody = {
@@ -122,9 +122,9 @@ describe('AddProductController', () => {
       price: -10,
     };
 
-    const response = await sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: requestBody });
 
-    expect(response.status).toBe(400);
+    await expect(promise).rejects.toThrow();
   });
 
   test('Should call AddProductService with correct values', async () => {

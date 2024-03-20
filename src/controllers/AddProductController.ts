@@ -16,10 +16,9 @@ class AddProductController {
   }
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const req = requestBodySchema.safeParse(request.body);
-    if (!req.success) return { status: 400, data: req.error };
+    const req = requestBodySchema.parse(request.body);
 
-    const response = await this.addProductService.execute(req.data);
+    const response = await this.addProductService.execute(req);
     if (!response) return { status: 500 };
 
     return { status: 201 };

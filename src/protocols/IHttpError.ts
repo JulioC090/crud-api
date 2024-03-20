@@ -1,5 +1,6 @@
 interface IHttpError {
   message?: string;
+  code?: string;
   statusCode?: number;
 }
 

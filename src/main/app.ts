@@ -7,10 +7,7 @@ function buildServer(port: number = 3000, opts = {}) {
   const app = fastify(opts);
   app.register(cors);
   app.setErrorHandler((error, request, reply) => {
-    const response = errorHandle({
-      message: error.message,
-      statusCode: 400,
-    });
+    const response = errorHandle(error);
     return reply.code(response.status).send(response.data);
   });
   app.register(productRoutes);

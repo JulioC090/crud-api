@@ -131,10 +131,10 @@ describe('DELETE /product', () => {
     expect(response.status).toBe(200);
   });
 
-  test('Should return 500 when id is undefined', async () => {
+  test('Should return 400 when id is undefined', async () => {
     const response = await request(app.server).delete(encodeURI('/product/'));
 
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(400);
   });
 
   test('Should delete the product', async () => {

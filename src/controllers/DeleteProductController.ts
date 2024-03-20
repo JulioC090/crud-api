@@ -14,10 +14,9 @@ class DeleteProductController {
   }
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const reqParams = requestParamsSchema.safeParse(request.params);
-    if (!reqParams.success) return { status: 500 };
+    const reqParams = requestParamsSchema.parse(request.params);
 
-    const response = await this.deleteProductService.execute(reqParams.data.id);
+    const response = await this.deleteProductService.execute(reqParams.id);
     if (!response) return { status: 500 };
 
     return { status: 200 };
