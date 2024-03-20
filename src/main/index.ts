@@ -1,6 +1,6 @@
-import buildServer from '@/app';
-import env from '@/env';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
+import buildServer from '@/main/app';
+import env from '@/main/config/env';
 
 const uri = env.dbUser
   ? `mongodb://${env.dbUser}:${env.dbPass}@${env.dbHost}:${env.dbPort}/${env.dbName}?authSource=admin`

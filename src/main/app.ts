@@ -1,4 +1,4 @@
-import productRoutes from '@/routes/productRoutes';
+import productRoutes from '@/main/routes/productRoutes';
 import cors from '@fastify/cors';
 import fastify from 'fastify';
 

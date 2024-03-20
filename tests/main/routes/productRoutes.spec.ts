@@ -1,5 +1,5 @@
-import buildServer from '@/app';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
+import buildServer from '@/main/app';
 import { FastifyInstance } from 'fastify';
 import request from 'supertest';
 

@@ -4,8 +4,8 @@
   "description": "Uma API para gerenciar um catálogo de produtos, oferecendo funcionalidades de criação, visualização, atualização e exclusão produtos.",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist",
-    "dev": "tsx watch ./src/index.ts",
+    "start": "node ./dist/main",
+    "dev": "tsx watch ./src/main/index.ts",
     "build": "tsc -p tsconfig.build.json && tsc-alias",
     "up": "docker-compose up -d",
     "down": "docker-compose down",
