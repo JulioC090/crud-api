@@ -34,6 +34,16 @@ Retorna uma lista de todos os produtos disponíveis no catálogo.
 
 - URL: `/produtos`
 - Método HTTP: `GET`
+- Resposta:
+
+```typescript
+products: Array<{
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+}>;
+```
 
 ### Adicionar produto
 
@@ -43,12 +53,18 @@ Adiciona um novo produto ao catálogo.
 - Método HTTP: `POST`
 - Parâmetros:
 
-```javascript
+```typescript
   {
     name: string,
     description: string,
     price: number
   }
+```
+
+- Resposta:
+
+```typescript
+  errors?: ZodError
 ```
 
 ### Editar Produto
@@ -59,12 +75,18 @@ Atualiza as informações de um produto existente.
 - Método HTTP: `PUT`
 - Parâmetros:
 
-```javascript
+```typescript
   {
     name: string,
     description: string,
     price: number
   }
+```
+
+- Resposta:
+
+```typescript
+  errors?: ZodError
 ```
 
 ### Excluir Produto
@@ -73,13 +95,20 @@ Remove um produto do catálogo.
 
 - URL: `/produtos/{id}`
 - Método HTTP: `DELETE`
+- Resposta:
+
+```typescript
+  errors?: ZodError
+```
 
 ## 🛠️ Tecnologias
 
 - NodeJS
 - Typescript
 - Fastify
+- Zod
 - MongoDB
+- Docker
 
 ## 📄 Licença
 
