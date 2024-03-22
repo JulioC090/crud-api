@@ -1,14 +1,14 @@
 import errorHandle from '@/main/errorHandle';
-import IHttpError from '@/protocols/IHttpError';
+import {
+  mockHttpError,
+  mockHttpErrorWithoutStatusCode,
+} from '@/tests/mocks/data/mockHttpError';
 
 const sut = errorHandle;
 
 describe('errorHandle', () => {
   test('Should return the status code of error', () => {
-    const error: IHttpError = {
-      statusCode: 400,
-      message: 'test_error',
-    };
+    const error = mockHttpError();
 
     const response = sut(error);
 
@@ -17,9 +17,7 @@ describe('errorHandle', () => {
   });
 
   test('Should return 500 code when statusCode is undefined', () => {
-    const error: IHttpError = {
-      message: 'test_error',
-    };
+    const error = mockHttpErrorWithoutStatusCode();
 
     const response = sut(error);
 
