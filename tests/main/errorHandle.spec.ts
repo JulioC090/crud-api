@@ -3,6 +3,7 @@ import {
   mockHttpError,
   mockHttpErrorWithoutStatusCode,
 } from '@/tests/mocks/data/mockHttpError';
+import { ZodError } from 'zod';
 
 const sut = errorHandle;
 
@@ -27,5 +28,10 @@ describe('errorHandle', () => {
   test('Should return only status when message is undefined', () => {
     const response = sut({});
     expect(response.status).toBe(500);
+  });
+
+  test('Should return 400 code when error is ZodError instance', () => {
+    const response = sut(new ZodError([]));
+    expect(response.status).toBe(400);
   });
 });
