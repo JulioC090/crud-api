@@ -1,6 +1,7 @@
 import MongoDBHelper from '@/helpers/MongoDBHelper';
 import buildServer from '@/main/app';
 import {
+  mockProductId,
   mockProductWithoutId,
   mockProductWithoutIdAndDescription,
   mockProductWithoutIdAndInvalidPrice,
@@ -123,6 +124,14 @@ describe('PUT /product', () => {
 
     expect(response.status).toBe(400);
   });
+
+  test('Should return 404 when product do not exist', async () => {
+    const response = await request(app.server)
+      .put(`/product/${mockProductId()}`)
+      .send(mockProductWithoutId());
+
+    expect(response.status).toBe(404);
+  });
 });
 
 describe('DELETE /product', () => {
@@ -150,5 +159,13 @@ describe('DELETE /product', () => {
     const secondGetResponse = await request(app.server).get('/products');
 
     expect(firstGetResponse.body > secondGetResponse.body).toBeTruthy();
+  });
+
+  test('Should return 404 when product do not exist', async () => {
+    const response = await request(app.server).delete(
+      `/product/${mockProductId()}`,
+    );
+
+    expect(response.status).toBe(404);
   });
 });

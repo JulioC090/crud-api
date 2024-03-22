@@ -28,7 +28,7 @@ class UpdateProductController {
       id: reqParams.id,
       partialProduct: reqBody,
     });
-    if (!response) return { status: 500 };
+    if (!response) return { status: 404 };
 
     return { status: 200 };
   }

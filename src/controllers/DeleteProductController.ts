@@ -17,7 +17,7 @@ class DeleteProductController {
     const reqParams = requestParamsSchema.parse(request.params);
 
     const response = await this.deleteProductService.execute(reqParams.id);
-    if (!response) return { status: 500 };
+    if (!response) return { status: 404 };
 
     return { status: 200 };
   }

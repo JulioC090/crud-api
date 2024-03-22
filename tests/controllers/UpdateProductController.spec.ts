@@ -117,7 +117,7 @@ describe('UpdateProductController', () => {
     });
   });
 
-  test('Should return 500 when UpdateProductService returns false', async () => {
+  test('Should return 404 when UpdateProductService returns false', async () => {
     const { sut, updateProductService } = makeSut();
     updateProductService.result = false;
 
@@ -128,6 +128,6 @@ describe('UpdateProductController', () => {
 
     const response = await sut.handle(request);
 
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(404);
   });
 });

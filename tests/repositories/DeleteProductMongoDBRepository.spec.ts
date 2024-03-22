@@ -27,14 +27,16 @@ describe('DeleteProductMongoDBRepository', () => {
 
   test('Should return true on success', async () => {
     await MongoDBHelper.connect(process.env.MONGO_URL as string);
+    productsCollection = await MongoDBHelper.getCollection<Product>('products');
+    await productsCollection?.insertOne(product);
+
     const { sut } = makeSut();
-    const response = await sut.delete({ id: mockProductId() });
+    const response = await sut.delete({ id: product.id });
 
     expect(response).toBeTruthy();
   });
 
   test('Should delete product in the productCollection', async () => {
-    productsCollection = await MongoDBHelper.getCollection<Product>('products');
     await productsCollection?.deleteMany();
     await productsCollection?.insertOne(product);
 

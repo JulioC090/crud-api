@@ -17,7 +17,7 @@ class DeleteProductMongoDBRepository implements IDeleteProductRepository {
 
     const result = await productsCollection.deleteOne({ id: data.id });
 
-    return result.acknowledged;
+    return result.acknowledged && result.deletedCount === 1;
   }
 }
 
