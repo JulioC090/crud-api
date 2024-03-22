@@ -1,8 +1,4 @@
 import AddProductController from '@/controllers/AddProductController';
-import { IAddProductRepositoryOutput } from '@/protocols/repositories/IAddProductRepository';
-import IAddProductService, {
-  IAddProductServiceInput,
-} from '@/protocols/services/IAddProductService';
 import {
   mockProductWithoutId,
   mockProductWithoutIdAndDescription,
@@ -12,16 +8,7 @@ import {
   mockProductWithoutIdAndName,
   mockProductWithoutIdAndPrice,
 } from '@/tests/mocks/data/mockProduct';
-
-class AddProductServiceSpy implements IAddProductService {
-  params!: IAddProductServiceInput;
-  result = true;
-
-  async execute(params: IAddProductServiceInput): IAddProductRepositoryOutput {
-    this.params = params;
-    return this.result;
-  }
-}
+import AddProductServiceSpy from '@/tests/mocks/services/AddProductServiceSpy';
 
 const makeSut = () => {
   const addProductService = new AddProductServiceSpy();

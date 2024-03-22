@@ -1,8 +1,4 @@
 import UpdateProductController from '@/controllers/UpdateProductController';
-import IUpdateProductService, {
-  IUpdateProductServiceInput,
-  IUpdateProductServiceOutput,
-} from '@/protocols/services/IUpdateProductService';
 import {
   mockProductId,
   mockProductWithoutId,
@@ -10,18 +6,7 @@ import {
   mockProductWithoutIdAndEmptyName,
   mockProductWithoutIdAndInvalidPrice,
 } from '@/tests/mocks/data/mockProduct';
-
-class UpdateProductServiceSpy implements IUpdateProductService {
-  params!: IUpdateProductServiceInput;
-  result = true;
-
-  async execute(
-    params: IUpdateProductServiceInput,
-  ): IUpdateProductServiceOutput {
-    this.params = params;
-    return this.result;
-  }
-}
+import UpdateProductServiceSpy from '@/tests/mocks/services/UpdateProductServiceSpy';
 
 const makeSut = () => {
   const updateProductService = new UpdateProductServiceSpy();

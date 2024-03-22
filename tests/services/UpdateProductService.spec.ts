@@ -1,25 +1,9 @@
-import {
-  IUpdateProductRepository,
-  IUpdateProductRepositoryInput,
-  IUpdateProductRepositoryOutput,
-} from '@/protocols/repositories/IUpdateProductRepository';
 import UpdateProductService from '@/services/UpdateProductService';
 import {
   mockProductId,
   mockProductWithoutId,
 } from '@/tests/mocks/data/mockProduct';
-
-class UpdateProductRepositorySpy implements IUpdateProductRepository {
-  params!: IUpdateProductRepositoryInput;
-  result = true;
-
-  async update(
-    params: IUpdateProductRepositoryInput,
-  ): IUpdateProductRepositoryOutput {
-    this.params = params;
-    return this.result;
-  }
-}
+import UpdateProductRepositorySpy from '@/tests/mocks/repositories/UpdateProductRepositorySpy';
 
 const makeSut = () => {
   const updateProductRepositorySpy = new UpdateProductRepositorySpy();

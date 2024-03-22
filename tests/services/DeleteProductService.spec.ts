@@ -1,22 +1,6 @@
-import {
-  IDeleteProductRepository,
-  IDeleteProductRepositoryInput,
-  IDeleteProductRepositoryOutput,
-} from '@/protocols/repositories/IDeleteProductRepository';
 import DeleteProductService from '@/services/DeleteProductService';
 import { mockProductId } from '@/tests/mocks/data/mockProduct';
-
-class DeleteProductRepositorySpy implements IDeleteProductRepository {
-  params!: IDeleteProductRepositoryInput;
-  result = true;
-
-  async delete(
-    params: IDeleteProductRepositoryInput,
-  ): IDeleteProductRepositoryOutput {
-    this.params = params;
-    return this.result;
-  }
-}
+import DeleteProductRepositorySpy from '@/tests/mocks/repositories/DeleteProductRepositorySpy';
 
 const makeSut = () => {
   const deleteProductRepositorySpy = new DeleteProductRepositorySpy();

@@ -1,20 +1,6 @@
-import {
-  IAddProductRepository,
-  IAddProductRepositoryInput,
-  IAddProductRepositoryOutput,
-} from '@/protocols/repositories/IAddProductRepository';
 import AddProductService from '@/services/AddProductService';
 import { mockProductWithoutId } from '@/tests/mocks/data/mockProduct';
-
-class AddProductRepositorySpy implements IAddProductRepository {
-  public params!: IAddProductRepositoryInput;
-  public result = true;
-
-  async add(data: IAddProductRepositoryInput): IAddProductRepositoryOutput {
-    this.params = data;
-    return this.result;
-  }
-}
+import AddProductRepositorySpy from '@/tests/mocks/repositories/AddProductRepositorySpy';
 
 const makeSut = () => {
   const addProductRepositorySpy = new AddProductRepositorySpy();
