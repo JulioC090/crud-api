@@ -1,6 +1,7 @@
 import Product from '@/entities/Product';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
 import DeleteProductMongoDBRepository from '@/repositories/DeleteProductMongoDBRepository';
+import { mockProduct, mockProductId } from '@/tests/mocks/data/mockProduct';
 import { Collection } from 'mongodb';
 
 let productsCollection: Collection<Product> | undefined;
@@ -10,12 +11,7 @@ const makeSut = () => {
   return { sut };
 };
 
-const product = {
-  id: 'id_valido',
-  name: 'Produto 1',
-  description: 'Descrição do Produto',
-  price: 19.99,
-};
+const product = mockProduct();
 
 describe('DeleteProductMongoDBRepository', () => {
   afterAll(async () => {
@@ -25,14 +21,14 @@ describe('DeleteProductMongoDBRepository', () => {
   test('Should return false when products collection is undefined', async () => {
     const { sut } = makeSut();
 
-    const promise = sut.delete({ id: 'id_valido' });
+    const promise = sut.delete({ id: mockProductId() });
     await expect(promise).rejects.toThrow();
   });
 
   test('Should return true on success', async () => {
     await MongoDBHelper.connect(process.env.MONGO_URL as string);
     const { sut } = makeSut();
-    const response = await sut.delete({ id: 'id_valido' });
+    const response = await sut.delete({ id: mockProductId() });
 
     expect(response).toBeTruthy();
   });
@@ -43,7 +39,7 @@ describe('DeleteProductMongoDBRepository', () => {
     await productsCollection?.insertOne(product);
 
     const { sut } = makeSut();
-    await sut.delete({ id: 'id_valido' });
+    await sut.delete({ id: product.id });
 
     const products = await productsCollection?.find({}).toArray();
 

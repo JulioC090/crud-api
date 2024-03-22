@@ -1,15 +1,12 @@
 import Product from '@/entities/Product';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
 import AddProductMongoDBRepository from '@/repositories/AddProductMongoDBRepository';
+import { mockProductWithoutId } from '@/tests/mocks/data/mockProduct';
 import { Collection } from 'mongodb';
 
 let productsCollection: Collection<Product> | undefined;
 
-const product = {
-  name: 'Produto 1',
-  description: 'Descrição do Produto',
-  price: 19.99,
-};
+const product = mockProductWithoutId();
 
 const makeSut = () => {
   const sut = new AddProductMongoDBRepository();

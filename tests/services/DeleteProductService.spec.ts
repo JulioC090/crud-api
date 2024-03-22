@@ -4,6 +4,7 @@ import {
   IDeleteProductRepositoryOutput,
 } from '@/protocols/repositories/IDeleteProductRepository';
 import DeleteProductService from '@/services/DeleteProductService';
+import { mockProductId } from '@/tests/mocks/data/mockProduct';
 
 class DeleteProductRepositorySpy implements IDeleteProductRepository {
   params!: IDeleteProductRepositoryInput;
@@ -26,7 +27,7 @@ const makeSut = () => {
 describe('DeleteProductService', () => {
   test('Should return true on success', async () => {
     const { sut } = makeSut();
-    const result = await sut.execute('id_valido');
+    const result = await sut.execute(mockProductId());
     expect(result).toBeTruthy();
   });
 
@@ -39,13 +40,14 @@ describe('DeleteProductService', () => {
   test('Should return false if DeleteProductRepository returns false', async () => {
     const { sut, deleteProductRepositorySpy } = makeSut();
     deleteProductRepositorySpy.result = false;
-    const result = await sut.execute('id_valido');
+    const result = await sut.execute(mockProductId());
     expect(result).toBeFalsy();
   });
 
   test('Should call DeleteProductRepository with correct values', async () => {
     const { sut, deleteProductRepositorySpy } = makeSut();
-    await sut.execute('id_valido');
-    expect(deleteProductRepositorySpy.params).toEqual({ id: 'id_valido' });
+    const id = mockProductId();
+    await sut.execute(id);
+    expect(deleteProductRepositorySpy.params).toEqual({ id });
   });
 });

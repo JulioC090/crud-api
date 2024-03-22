@@ -4,6 +4,7 @@ import {
   IAddProductRepositoryOutput,
 } from '@/protocols/repositories/IAddProductRepository';
 import AddProductService from '@/services/AddProductService';
+import { mockProductWithoutId } from '@/tests/mocks/data/mockProduct';
 
 class AddProductRepositorySpy implements IAddProductRepository {
   public params!: IAddProductRepositoryInput;
@@ -21,14 +22,9 @@ const makeSut = () => {
   return { sut, addProductRepositorySpy };
 };
 
-const product = {
-  name: 'Produto 1',
-  description: 'Descrição do Produto',
-  price: 19.99,
-};
-
 describe('AddProductService', () => {
   test('Should call AddProductRepository with correct values', async () => {
+    const product = mockProductWithoutId();
     const { sut, addProductRepositorySpy } = makeSut();
     await sut.execute(product);
     expect(addProductRepositorySpy.params).toEqual({ product });
@@ -36,14 +32,14 @@ describe('AddProductService', () => {
 
   test('Should return true on success', async () => {
     const { sut } = makeSut();
-    const result = await sut.execute(product);
+    const result = await sut.execute(mockProductWithoutId());
     expect(result).toBe(true);
   });
 
   test('Should return false if AddProductRepository returns false', async () => {
     const { sut, addProductRepositorySpy } = makeSut();
     addProductRepositorySpy.result = false;
-    const result = await sut.execute(product);
+    const result = await sut.execute(mockProductWithoutId());
     expect(result).toBeFalsy();
   });
 
@@ -54,7 +50,7 @@ describe('AddProductService', () => {
       .mockImplementationOnce((): never => {
         throw new Error();
       });
-    const promise = sut.execute(product);
+    const promise = sut.execute(mockProductWithoutId());
     await expect(promise).rejects.toThrow();
   });
 });

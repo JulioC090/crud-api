@@ -1,6 +1,7 @@
 import Product from '@/entities/Product';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
 import ListProductMongoDBRepository from '@/repositories/ListProductMongoDBRepository';
+import { mockProducts } from '@/tests/mocks/data/mockProduct';
 import { Collection } from 'mongodb';
 
 let productsCollection: Collection<Product> | undefined;
@@ -38,20 +39,7 @@ describe('ListProductMongoDBRepository', () => {
     await productsCollection?.deleteMany();
 
     const { sut } = makeSut();
-    const fakeProducts = [
-      {
-        id: 'ID1',
-        name: 'Produto 1',
-        description: 'Descrição do Produto',
-        price: 19.99,
-      },
-      {
-        id: 'ID2',
-        name: 'Produto 2',
-        description: 'Descrição do Produto',
-        price: 19.99,
-      },
-    ];
+    const fakeProducts = mockProducts(5);
 
     await productsCollection?.insertMany(
       fakeProducts.map((product) => Object.assign({}, product)),

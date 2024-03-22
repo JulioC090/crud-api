@@ -3,6 +3,15 @@ import { IAddProductRepositoryOutput } from '@/protocols/repositories/IAddProduc
 import IAddProductService, {
   IAddProductServiceInput,
 } from '@/protocols/services/IAddProductService';
+import {
+  mockProductWithoutId,
+  mockProductWithoutIdAndDescription,
+  mockProductWithoutIdAndEmptyDescription,
+  mockProductWithoutIdAndEmptyName,
+  mockProductWithoutIdAndInvalidPrice,
+  mockProductWithoutIdAndName,
+  mockProductWithoutIdAndPrice,
+} from '@/tests/mocks/data/mockProduct';
 
 class AddProductServiceSpy implements IAddProductService {
   params!: IAddProductServiceInput;
@@ -25,13 +34,7 @@ describe('AddProductController', () => {
   test('Should return 201 code on success', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {
-      name: 'Test Product',
-      description: 'Test Description',
-      price: 10.99,
-    };
-
-    const response = await sut.handle({ body: requestBody });
+    const response = await sut.handle({ body: mockProductWithoutId() });
 
     expect(response.status).toBe(201);
   });
@@ -39,9 +42,7 @@ describe('AddProductController', () => {
   test('Should throw when request body is empty', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {};
-
-    const promise = sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: {} });
 
     await expect(promise).rejects.toThrow();
   });
@@ -49,13 +50,7 @@ describe('AddProductController', () => {
   test('Should throw when name is empty', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {
-      name: 'Test Product',
-      description: '',
-      price: 10.99,
-    };
-
-    const promise = sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: mockProductWithoutIdAndEmptyName() });
 
     await expect(promise).rejects.toThrow();
   });
@@ -63,13 +58,9 @@ describe('AddProductController', () => {
   test('Should throw when description is empty', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {
-      name: '',
-      description: 'Test Description',
-      price: 10.99,
-    };
-
-    const promise = sut.handle({ body: requestBody });
+    const promise = sut.handle({
+      body: mockProductWithoutIdAndEmptyDescription(),
+    });
 
     await expect(promise).rejects.toThrow();
   });
@@ -77,12 +68,7 @@ describe('AddProductController', () => {
   test('Should throw when name is undefined', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {
-      description: 'Test Description',
-      price: 10.99,
-    };
-
-    const promise = sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: mockProductWithoutIdAndName() });
 
     await expect(promise).rejects.toThrow();
   });
@@ -90,12 +76,7 @@ describe('AddProductController', () => {
   test('Should throw when description is undefined', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {
-      name: 'Test Product',
-      price: 10.99,
-    };
-
-    const promise = sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: mockProductWithoutIdAndDescription() });
 
     await expect(promise).rejects.toThrow();
   });
@@ -103,12 +84,7 @@ describe('AddProductController', () => {
   test('Should throw when price is undefined', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {
-      name: 'Test Product',
-      description: 'Test Description',
-    };
-
-    const promise = sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: mockProductWithoutIdAndPrice() });
 
     await expect(promise).rejects.toThrow();
   });
@@ -116,13 +92,7 @@ describe('AddProductController', () => {
   test('Should throw when price is negative', async () => {
     const { sut } = makeSut();
 
-    const requestBody = {
-      name: 'Test Product',
-      description: 'Test Description',
-      price: -10,
-    };
-
-    const promise = sut.handle({ body: requestBody });
+    const promise = sut.handle({ body: mockProductWithoutIdAndInvalidPrice() });
 
     await expect(promise).rejects.toThrow();
   });
@@ -130,29 +100,21 @@ describe('AddProductController', () => {
   test('Should call AddProductService with correct values', async () => {
     const { sut, addProductService } = makeSut();
 
-    const requestBody = {
-      name: 'Test Product',
-      description: 'Test Description',
-      price: 10.99,
-    };
+    const product = mockProductWithoutId();
 
-    const response = await sut.handle({ body: requestBody });
+    const response = await sut.handle({ body: product });
 
     expect(response.status).toBe(201);
-    expect(addProductService.params).toEqual(requestBody);
+    expect(addProductService.params).toEqual(product);
   });
 
   test('Should return 500 when AddProductService returns false', async () => {
     const { sut, addProductService } = makeSut();
     addProductService.result = false;
 
-    const requestBody = {
-      name: 'Test Product',
-      description: 'Test Description',
-      price: 10.99,
-    };
+    const product = mockProductWithoutId();
 
-    const response = await sut.handle({ body: requestBody });
+    const response = await sut.handle({ body: product });
 
     expect(response.status).toBe(500);
   });

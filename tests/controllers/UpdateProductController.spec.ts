@@ -3,6 +3,13 @@ import IUpdateProductService, {
   IUpdateProductServiceInput,
   IUpdateProductServiceOutput,
 } from '@/protocols/services/IUpdateProductService';
+import {
+  mockProductId,
+  mockProductWithoutId,
+  mockProductWithoutIdAndEmptyDescription,
+  mockProductWithoutIdAndEmptyName,
+  mockProductWithoutIdAndInvalidPrice,
+} from '@/tests/mocks/data/mockProduct';
 
 class UpdateProductServiceSpy implements IUpdateProductService {
   params!: IUpdateProductServiceInput;
@@ -28,8 +35,8 @@ describe('UpdateProductController', () => {
     const { sut } = makeSut();
 
     const request = {
-      params: { id: 'id_valido' },
-      body: { name: 'Test Product' },
+      params: { id: mockProductId() },
+      body: mockProductWithoutId(),
     };
 
     const response = await sut.handle(request);
@@ -40,7 +47,7 @@ describe('UpdateProductController', () => {
   test('Should throw when id is undefined', async () => {
     const { sut } = makeSut();
 
-    const promise = sut.handle({ params: {} });
+    const promise = sut.handle({ params: {}, body: mockProductWithoutId() });
 
     await expect(promise).rejects.toThrow();
   });
@@ -48,7 +55,10 @@ describe('UpdateProductController', () => {
   test('Should throw when id is empty', async () => {
     const { sut } = makeSut();
 
-    const promise = sut.handle({ params: { id: '' } });
+    const promise = sut.handle({
+      params: { id: '' },
+      body: mockProductWithoutId(),
+    });
 
     await expect(promise).rejects.toThrow();
   });
@@ -57,7 +67,7 @@ describe('UpdateProductController', () => {
     const { sut } = makeSut();
 
     const request = {
-      params: { id: 'id_valido' },
+      params: { id: mockProductId() },
       body: {},
     };
 
@@ -70,12 +80,8 @@ describe('UpdateProductController', () => {
     const { sut } = makeSut();
 
     const request = {
-      params: { id: 'id_valido' },
-      body: {
-        name: '',
-        description: 'Test Description',
-        price: 10.99,
-      },
+      params: { id: mockProductId() },
+      body: mockProductWithoutIdAndEmptyName(),
     };
 
     const promise = sut.handle(request);
@@ -87,12 +93,8 @@ describe('UpdateProductController', () => {
     const { sut } = makeSut();
 
     const request = {
-      params: { id: 'id_valido' },
-      body: {
-        name: 'Test Product',
-        description: '',
-        price: 10.99,
-      },
+      params: { id: mockProductId() },
+      body: mockProductWithoutIdAndEmptyDescription(),
     };
 
     const promise = sut.handle(request);
@@ -104,12 +106,8 @@ describe('UpdateProductController', () => {
     const { sut } = makeSut();
 
     const request = {
-      params: { id: 'id_valido' },
-      body: {
-        name: 'Test Product',
-        description: '',
-        price: -10.99,
-      },
+      params: { id: mockProductId() },
+      body: mockProductWithoutIdAndInvalidPrice(),
     };
 
     const promise = sut.handle(request);
@@ -121,8 +119,8 @@ describe('UpdateProductController', () => {
     const { sut, updateProductService } = makeSut();
 
     const request = {
-      params: { id: 'id_valido' },
-      body: { name: 'Test Product' },
+      params: { id: mockProductId() },
+      body: mockProductWithoutId(),
     };
 
     const response = await sut.handle(request);
@@ -139,8 +137,8 @@ describe('UpdateProductController', () => {
     updateProductService.result = false;
 
     const request = {
-      params: { id: 'id_valido' },
-      body: { name: 'Test Product' },
+      params: { id: mockProductId() },
+      body: mockProductWithoutId(),
     };
 
     const response = await sut.handle(request);

@@ -3,6 +3,7 @@ import { IDeleteProductRepositoryOutput } from '@/protocols/repositories/IDelete
 import IDeleteProductService, {
   IDeleteProductServiceInput,
 } from '@/protocols/services/IDeleteProductService';
+import { mockProductId } from '@/tests/mocks/data/mockProduct';
 
 class DeleteProductServiceSpy implements IDeleteProductService {
   params!: IDeleteProductServiceInput;
@@ -23,11 +24,13 @@ const makeSut = () => {
   return { sut, deleteProductService };
 };
 
+const id = mockProductId();
+
 describe('DeleteProductController', () => {
   test('Should return 200 code on success', async () => {
     const { sut } = makeSut();
 
-    const response = await sut.handle({ params: { id: 'id_valido' } });
+    const response = await sut.handle({ params: { id } });
 
     expect(response.status).toBe(200);
   });
@@ -51,16 +54,16 @@ describe('DeleteProductController', () => {
   test('Should call DeleteProductService with correct values', async () => {
     const { sut, deleteProductService } = makeSut();
 
-    await sut.handle({ params: { id: 'id_valido' } });
+    await sut.handle({ params: { id } });
 
-    expect(deleteProductService.params).toBe('id_valido');
+    expect(deleteProductService.params).toBe(id);
   });
 
   test('Should return 500 when DeleteProductService returns false', async () => {
     const { sut, deleteProductService } = makeSut();
     deleteProductService.result = false;
 
-    const response = await sut.handle({ params: { id: 'id_valido' } });
+    const response = await sut.handle({ params: { id } });
 
     expect(response.status).toBe(500);
   });

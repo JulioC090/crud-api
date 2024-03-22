@@ -1,4 +1,8 @@
 import buildServer from '@/main/app';
+import {
+  mockProductId,
+  mockProductWithoutId,
+} from '@/tests/mocks/data/mockProduct';
 import { FastifyInstance } from 'fastify';
 import request from 'supertest';
 
@@ -22,11 +26,9 @@ describe('GET /products', () => {
 
 describe('POST /product', () => {
   test('Should return 500 when Database is not defined', async () => {
-    const response = await request(app.server).post('/product').send({
-      name: 'Test Product',
-      description: 'Test Description',
-      price: 10.99,
-    });
+    const response = await request(app.server)
+      .post('/product')
+      .send(mockProductWithoutId());
     expect(response.status).toBe(500);
   });
 });
@@ -34,8 +36,8 @@ describe('POST /product', () => {
 describe('PUT /product', () => {
   test('Should return 500 when Database is not defined', async () => {
     const response = await request(app.server)
-      .put(encodeURI('/product/id_valido'))
-      .send({ name: 'New_Name' });
+      .put(encodeURI(`/product/${mockProductId()}`))
+      .send(mockProductWithoutId());
 
     expect(response.status).toBe(500);
   });
@@ -44,7 +46,7 @@ describe('PUT /product', () => {
 describe('DELETE /product', () => {
   test('Should return 500 when Database is not defined', async () => {
     const response = await request(app.server).delete(
-      encodeURI('/product/id_valido'),
+      encodeURI(`/product/${mockProductId()}`),
     );
 
     expect(response.status).toBe(500);

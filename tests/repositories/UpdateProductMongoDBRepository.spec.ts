@@ -1,6 +1,13 @@
 import Product from '@/entities/Product';
 import MongoDBHelper from '@/helpers/MongoDBHelper';
 import UpdateProductMongoDBRepository from '@/repositories/UpdateProductMongoDBRepository';
+import {
+  mockProduct,
+  mockProductWithOnlyDescription,
+  mockProductWithOnlyName,
+  mockProductWithOnlyPrice,
+  mockProductWithoutId,
+} from '@/tests/mocks/data/mockProduct';
 import { Collection } from 'mongodb';
 
 let productsCollection: Collection<Product> | undefined;
@@ -10,18 +17,8 @@ const makeSut = () => {
   return { sut };
 };
 
-const product = {
-  id: 'id_valido',
-  name: 'Produto 1',
-  description: 'Descrição do Produto',
-  price: 19.99,
-};
-
-const partialProduct = {
-  name: 'Nome',
-  description: 'Descrição',
-  price: 1,
-};
+const product = mockProduct();
+const partialProduct = mockProductWithoutId();
 
 describe('UpdateProductMongoDBRepository', () => {
   afterAll(async () => {
@@ -31,7 +28,7 @@ describe('UpdateProductMongoDBRepository', () => {
   test('Should return false when products collection is undefined', async () => {
     const { sut } = makeSut();
 
-    const promise = sut.update({ id: 'id_valido', partialProduct });
+    const promise = sut.update({ id: product.id, partialProduct });
     await expect(promise).rejects.toThrow();
   });
 
@@ -42,7 +39,10 @@ describe('UpdateProductMongoDBRepository', () => {
     await productsCollection?.insertOne(product);
 
     const { sut } = makeSut();
-    const response = await sut.update({ id: 'id_valido', partialProduct });
+    const response = await sut.update({
+      id: product.id,
+      partialProduct,
+    });
 
     expect(response).toBeTruthy();
   });
@@ -53,7 +53,10 @@ describe('UpdateProductMongoDBRepository', () => {
     await productsCollection?.insertOne(product);
 
     const { sut } = makeSut();
-    await sut.update({ id: 'id_valido', partialProduct });
+    await sut.update({
+      id: product.id,
+      partialProduct,
+    });
 
     const products = await productsCollection?.find({}).toArray();
 
@@ -67,7 +70,7 @@ describe('UpdateProductMongoDBRepository', () => {
 
     const { sut } = makeSut();
     const response = await sut.update({
-      id: 'id_valido',
+      id: product.id,
       partialProduct: {},
     });
 
@@ -79,15 +82,17 @@ describe('UpdateProductMongoDBRepository', () => {
     await productsCollection?.deleteMany();
     await productsCollection?.insertOne(product);
 
+    const partialProduct = mockProductWithOnlyName();
+
     const { sut } = makeSut();
     await sut.update({
-      id: 'id_valido',
-      partialProduct: { name: 'nome_valido' },
+      id: product.id,
+      partialProduct,
     });
 
     const products = await productsCollection?.find({}).toArray();
 
-    expect(products![0]).toEqual({ ...product, ...{ name: 'nome_valido' } });
+    expect(products![0]).toEqual({ ...product, ...partialProduct });
   });
 
   test('Should update only description when only description is passed', async () => {
@@ -95,17 +100,19 @@ describe('UpdateProductMongoDBRepository', () => {
     await productsCollection?.deleteMany();
     await productsCollection?.insertOne(product);
 
+    const partialProduct = mockProductWithOnlyDescription();
+
     const { sut } = makeSut();
     await sut.update({
-      id: 'id_valido',
-      partialProduct: { description: 'descrição_valida' },
+      id: product.id,
+      partialProduct,
     });
 
     const products = await productsCollection?.find({}).toArray();
 
     expect(products![0]).toEqual({
       ...product,
-      ...{ description: 'descrição_valida' },
+      ...partialProduct,
     });
   });
 
@@ -114,17 +121,19 @@ describe('UpdateProductMongoDBRepository', () => {
     await productsCollection?.deleteMany();
     await productsCollection?.insertOne(product);
 
+    const partialProduct = mockProductWithOnlyPrice();
+
     const { sut } = makeSut();
     await sut.update({
-      id: 'id_valido',
-      partialProduct: { price: 1 },
+      id: product.id,
+      partialProduct,
     });
 
     const products = await productsCollection?.find({}).toArray();
 
     expect(products![0]).toEqual({
       ...product,
-      ...{ price: 1 },
+      ...partialProduct,
     });
   });
 
@@ -133,7 +142,7 @@ describe('UpdateProductMongoDBRepository', () => {
     await productsCollection?.deleteMany();
 
     const { sut } = makeSut();
-    const response = await sut.update({ id: 'id_valido', partialProduct });
+    const response = await sut.update({ id: product.id, partialProduct });
 
     expect(response).toBeFalsy();
   });
