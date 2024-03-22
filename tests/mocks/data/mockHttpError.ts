@@ -1,5 +1,5 @@
 import IHttpError from '@/protocols/IHttpError';
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker/locale/en_US';
 
 export const mockHttpError = (): IHttpError => {
   return {
