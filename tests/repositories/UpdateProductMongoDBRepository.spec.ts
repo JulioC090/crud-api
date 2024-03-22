@@ -137,6 +137,20 @@ describe('UpdateProductMongoDBRepository', () => {
     });
   });
 
+  test('Should return true when edit product with same values', async () => {
+    productsCollection = await MongoDBHelper.getCollection<Product>('products');
+    await productsCollection?.deleteMany();
+    await productsCollection?.insertOne(product);
+
+    const { sut } = makeSut();
+    const response = await sut.update({
+      id: product.id,
+      partialProduct: product,
+    });
+
+    expect(response).toBeTruthy();
+  });
+
   test('Should return false when product do not exist', async () => {
     productsCollection = await MongoDBHelper.getCollection<Product>('products');
     await productsCollection?.deleteMany();

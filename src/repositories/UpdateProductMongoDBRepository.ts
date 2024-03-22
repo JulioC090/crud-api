@@ -23,7 +23,7 @@ class UpdateProductMongoDBRepository implements IUpdateProductRepository {
       { $set: data.partialProduct },
     );
 
-    return response.acknowledged && response.modifiedCount > 0;
+    return response.acknowledged && response.matchedCount > 0;
   }
 }
 
